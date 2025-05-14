@@ -1,8 +1,22 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class BST <T extends Comparable<T>> {
     private Nodo<T> raiz;
 
     public BST() {
         this.raiz = null;
+    }
+    public int getAltura() {
+        return getAlturaRecursivo(raiz);
+    }
+    public int getAlturaRecursivo(Nodo<T> nodo) {
+        if (nodo == null) {
+            return 0;
+        }
+        int alturaIzquierda = getAlturaRecursivo(nodo.getIzquierda());
+        int alturaDerecha = getAlturaRecursivo(nodo.getDerecha());
+        return Math.max(alturaIzquierda, alturaDerecha) + 1;
     }
 
     public void insertar(T dato) {
@@ -13,7 +27,6 @@ public class BST <T extends Comparable<T>> {
             insertarRecursivo(raiz, nuevo);
         }
     }
-
     private void insertarRecursivo(Nodo<T> actual, Nodo<T> nuevo) {
         if (nuevo.getDato().compareTo(actual.getDato()) < 0) {
             if (actual.getIzquierda() == null) {
@@ -29,7 +42,6 @@ public class BST <T extends Comparable<T>> {
             }
         }
     }
-
     public void inOrden() {
         inOrdenRecursivo(raiz);
     }
@@ -64,6 +76,40 @@ public class BST <T extends Comparable<T>> {
             postOrdenRecursivo(nodo.getDerecha());
             System.out.print(nodo.getDato() + " ");
         }
+    }
+    public void printTree(Nodo<T> nodo) {
+        int h = getAltura();
+        printRecursivo(nodo, h);
+        
+    }
+    public void printRecursivo(Nodo<T> nodo, int h) {
+        if (nodo == null) {
+            System.out.print("  ");
+        }
+        
+    }
+    public static void main(String[] args) {
+        BST<Integer> arbol = new BST<>();
+        arbol.insertar(50);
+        arbol.insertar(30);
+        arbol.insertar(70);
+        arbol.insertar(20);
+        arbol.insertar(40);
+        arbol.insertar(60);
+        arbol.insertar(80);
+
+        System.out.println("Recorrido InOrden:");
+        arbol.inOrden();
+        System.out.println();
+
+        System.out.println("Recorrido PreOrden:");
+        arbol.preOrden();
+        System.out.println();
+
+        System.out.println("Recorrido PostOrden:");
+        arbol.postOrden();
+        System.out.println("Árbol visual:");
+        
     }
     
 }
