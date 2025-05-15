@@ -1,92 +1,93 @@
-import java.util.LinkedList;
-import java.util.Queue;
-
 public class BST <T extends Comparable<T>> {
-    private Nodo<T> raiz;
+    private Node<T> root;
 
     public BST() {
-        this.raiz = null;
+        this.root = null;
     }
     public int getAltura() {
-        return getAlturaRecursivo(raiz);
+        return getAlturaRecursivo(root);
     }
-    public int getAlturaRecursivo(Nodo<T> nodo) {
-        if (nodo == null) {
+    public int getAlturaRecursivo(Node<T> Node) {
+        if (Node == null) {
             return 0;
         }
-        int alturaIzquierda = getAlturaRecursivo(nodo.getIzquierda());
-        int alturaDerecha = getAlturaRecursivo(nodo.getDerecha());
-        return Math.max(alturaIzquierda, alturaDerecha) + 1;
+        int alturootquierda = getAlturaRecursivo(Node.getLeft());
+        int alturaDerecha = getAlturaRecursivo(Node.getRight());
+        return Math.max(alturootquierda, alturaDerecha) + 1;
     }
 
-    public void insertar(T dato) {
-        Nodo<T> nuevo = new Nodo<>(dato);
-        if (raiz == null) {
-            raiz = nuevo;
+    public void insertar(T data) {
+        Node<T> nuevo = new Node<>(data);
+        if (root == null) {
+            root = nuevo;
         } else {
-            insertarRecursivo(raiz, nuevo);
+            insertarRecursivo(root, nuevo);
         }
     }
-    private void insertarRecursivo(Nodo<T> actual, Nodo<T> nuevo) {
-        if (nuevo.getDato().compareTo(actual.getDato()) < 0) {
-            if (actual.getIzquierda() == null) {
-                actual.setIzquierda(nuevo);
+    private void insertarRecursivo(Node<T> actual, Node<T> nuevo) {
+        if (nuevo.getData().compareTo(actual.getData()) < 0) {
+            if (actual.getLeft() == null) {
+                actual.setLeft(nuevo);
             } else {
-                insertarRecursivo(actual.getIzquierda(), nuevo);
+                insertarRecursivo(actual.getLeft(), nuevo);
             }
         } else {
-            if (actual.getDerecha() == null) {
-                actual.setDerecha(nuevo);
+            if (actual.getRight() == null) {
+                actual.setRight(nuevo);
             } else {
-                insertarRecursivo(actual.getDerecha(), nuevo);
+                insertarRecursivo(actual.getRight(), nuevo);
             }
         }
     }
     public void inOrden() {
-        inOrdenRecursivo(raiz);
+        inOrdenRecursivo(root);
     }
 
-    private void inOrdenRecursivo(Nodo<T> nodo) {
-        if (nodo != null) {
-            inOrdenRecursivo(nodo.getIzquierda());
-            System.out.print(nodo.getDato() + " ");
-            inOrdenRecursivo(nodo.getDerecha());
+    private void inOrdenRecursivo(Node<T> Node) {
+        if (Node != null) {
+            inOrdenRecursivo(Node.getLeft());
+            System.out.print(Node.getData() + " ");
+            inOrdenRecursivo(Node.getRight());
         }
     }
 
     public void preOrden() {
-        preOrdenRecursivo(raiz);
+        preOrdenRecursivo(root);
     }
 
-    private void preOrdenRecursivo(Nodo<T> nodo) {
-        if (nodo != null) {
-            System.out.print(nodo.getDato() + " ");
-            preOrdenRecursivo(nodo.getIzquierda());
-            preOrdenRecursivo(nodo.getDerecha());
+    private void preOrdenRecursivo(Node<T> Node) {
+        if (Node != null) {
+            System.out.print(Node.getData() + " ");
+            preOrdenRecursivo(Node.getLeft());
+            preOrdenRecursivo(Node.getRight());
         }
     }
 
     public void postOrden() {
-        postOrdenRecursivo(raiz);
+        postOrdenRecursivo(root);
     }
 
-    private void postOrdenRecursivo(Nodo<T> nodo) {
-        if (nodo != null) {
-            postOrdenRecursivo(nodo.getIzquierda());
-            postOrdenRecursivo(nodo.getDerecha());
-            System.out.print(nodo.getDato() + " ");
+    private void postOrdenRecursivo(Node<T> Node) {
+        if (Node != null) {
+            postOrdenRecursivo(Node.getLeft());
+            postOrdenRecursivo(Node.getRight());
+            System.out.print(Node.getData() + " ");
         }
     }
-    public void printTree(Nodo<T> nodo) {
-        int h = getAltura();
-        printRecursivo(nodo, h);
-        
+    public T search(T x) throws ItemNotFound {
+        Node<T> res = searchRec(x, this.root);
+        if (res == null)
+            throw new ItemNotFound ("El data "+ x + "no esta");
+        return res.getData();
     }
-    public void printRecursivo(Nodo<T> nodo, int h) {
-        if (nodo == null) {
-            System.out.print("  ");
+    protected Node<T> searchRec(T x, Node<T> n){
+        if (n == null) return null;
+        else {
+            int resC = n.getData().compareTo(x);
+            if (resC < 0) return searchRec(x, n.getRight());
+            else if (resC > 0) return searchRec(x, n.getLeft());
+            else return n;
         }
-        
     }
     public static void main(String[] args) {
         BST<Integer> arbol = new BST<>();
