@@ -1,7 +1,7 @@
 public class Node <T> {
-    private T data;
-    private Node<T> left;
-    private Node<T> right;
+    public T data;
+    public Node<T> left;
+    public Node<T> right;
     public Node() {
         this.data = null;
         this.left = null;
